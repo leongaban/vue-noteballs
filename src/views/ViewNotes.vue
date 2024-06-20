@@ -18,6 +18,7 @@
               class="w-full px-3 py-2 text-gray-700 border border-green-500 rounded-lg focus:outline-none"
               rows="4"
               placeholder="Add new note..."
+              ref="newNoteRef"
             ></textarea>
           </div>
           <div class="flex justify-end">
@@ -87,11 +88,30 @@ const notes = ref([
     content: 'Dolor sit amet lorem ipsum.',
   },
 ])
+
 const newNote = ref('')
+const newNoteRef = ref<HTMLTextAreaElement | null>(null)
 
 const handleSubmit = () => {
   console.log('New Note:', newNote.value)
+
+  if (newNote.value.trim() === '') {
+    return
+  }
+
+  let currentDate = new Date().getTime()
+  let id = currentDate.toString()
+  let note = {
+    // id: `id${notes.value.length + 1}`,
+    id,
+    content: newNote.value,
+  }
+
+  notes.value.unshift(note)
+
   newNote.value = ''
+
+  newNoteRef.value?.focus()
 }
 
 const handleClear = () => {
