@@ -41,7 +41,7 @@
     </div>
 
     <Note
-      v-for="note in notes"
+      v-for="note in notesStore.notes"
       :key="note.id"
       :note="note"
       @deleteClicked="deleteNote"
@@ -52,24 +52,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Note from '@/components/Notes/Note.vue'
+import { useNotesStore } from '@/stores/storeNotes'
 
-const notes = ref([
-  {
-    id: 'id1',
-    content: 'Lorem ipsum dolor sit amet.',
-  },
-  {
-    id: 'id2',
-    content: 'Ipsum dolor sit amet lorem.',
-  },
-  {
-    id: 'id3',
-    content: 'Dolor sit amet lorem ipsum.',
-  },
-])
+const notesStore = useNotesStore()
+const { addNote, removeNote } = notesStore
+
+// ? Notes
 
 const newNote = ref('')
 const newNoteRef = ref<HTMLTextAreaElement | null>(null)
+
+// ? Submit, Clear & Delete Notes
 
 const handleSubmit = () => {
   console.log('New Note:', newNote.value)
@@ -78,17 +71,8 @@ const handleSubmit = () => {
     return
   }
 
-  let currentDate = new Date().getTime()
-  let id = currentDate.toString()
-  let note = {
-    id,
-    content: newNote.value,
-  }
-
-  notes.value.unshift(note)
-
+  addNote(newNote.value)
   newNote.value = ''
-
   newNoteRef.value?.focus()
 }
 
@@ -98,7 +82,7 @@ const handleClear = () => {
 
 const deleteNote = (id: string) => {
   console.log('Delete note:', id)
-  notes.value = notes.value.filter(note => note.id !== id)
+  removeNote(id)
 }
 </script>
 
