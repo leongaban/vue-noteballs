@@ -2,7 +2,6 @@
   <div class="notes">
     <h1 class="m-5 text-3xl">Notes</h1>
 
-    <!-- Form Container -->
     <div
       class="w-full max-w-full mb-8 bg-green-100 rounded-lg border border-green-700 overflow-hidden shadow-lg"
     >
@@ -41,38 +40,18 @@
       </div>
     </div>
 
-    <!-- Notes Cards -->
-    <div v-for="note in notes" :key="note.id">
-      <div
-        class="w-full max-w-full mb-8 overflow-hidden border rounded-lg border-gray-400 shadow-lg bg-white"
-      >
-        <div class="px-6 py-4">
-          <!-- <div class="font-bold text-xl mb-2">Card Title</div> -->
-          <p class="text-gray-700 text-base">
-            {{ note.content }}
-          </p>
-        </div>
-        <div class="px-6 pt-4 pb-2 flex justify-end">
-          <div class="flex space-x-2">
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Edit
-            </button>
-            <button
-              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Note
+      v-for="note in notes"
+      :key="note.id"
+      :note="note"
+      @deleteClicked="deleteNote"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import Note from '@/components/Notes/Note.vue'
 
 const notes = ref([
   {
@@ -102,7 +81,6 @@ const handleSubmit = () => {
   let currentDate = new Date().getTime()
   let id = currentDate.toString()
   let note = {
-    // id: `id${notes.value.length + 1}`,
     id,
     content: newNote.value,
   }
@@ -116,6 +94,11 @@ const handleSubmit = () => {
 
 const handleClear = () => {
   newNote.value = ''
+}
+
+const deleteNote = (id: string) => {
+  console.log('Delete note:', id)
+  notes.value = notes.value.filter(note => note.id !== id)
 }
 </script>
 
