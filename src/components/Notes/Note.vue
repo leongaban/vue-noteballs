@@ -13,11 +13,13 @@
     </div>
     <div class="px-6 pt-4 pb-2 flex justify-end">
       <div class="flex space-x-2">
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Edit
-        </button>
+        <RouterLink :to="`/edit-note/${note.id}`">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Edit
+          </button>
+        </RouterLink>
         <button
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           @click.prevent="handleDeleteClicked(note.id)"
@@ -39,6 +41,10 @@ let characterLength = computed(() => {
 })
 
 const emit = defineEmits(['delete-clicked'])
+
+// const handleEditClicked = (id: string, content: string) => {
+//   emit('edit-clicked', id, content)
+// }
 
 const handleDeleteClicked = (id: string) => {
   emit('delete-clicked', id)
