@@ -1,6 +1,7 @@
 <template>
   <div
-    class="w-full max-w-full mb-8 bg-green-100 rounded-lg border border-green-700 overflow-hidden shadow-lg"
+    class="w-full max-w-full mb-8 rounded-lg border overflow-hidden shadow-lg"
+    :class="`bg-${bgColor}-100 border-${bgColor}-700`"
   >
     <form @submit.prevent>
       <div class="px-6 py-4">
@@ -12,9 +13,10 @@
             id="note"
             v-bind:value="modelValue"
             @input="updateValue"
-            class="w-full px-3 py-2 text-gray-700 border border-green-500 rounded-lg focus:outline-none"
+            class="w-full px-3 py-2 text-gray-700 border-2 rounded-lg"
+            :class="`border-${bgColor}-700`"
             rows="4"
-            placeholder="Add new note..."
+            :placeholder="placeholder"
             ref="textAreaRef"
           ></textarea>
         </div>
@@ -36,7 +38,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  bgColor: {
+    type: String,
+    default: 'green',
+  },
+  placeholder: {
+    type: String,
+    default: 'Type something...',
+  },
 })
+
+console.log('props', props)
 
 const emit = defineEmits(['update:modelValue'])
 

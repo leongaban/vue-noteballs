@@ -3,7 +3,12 @@
     <h1 class="m-5 text-3xl">Notes</h1>
 
     <!-- Adding buttons via named slot -->
-    <AddEditNote v-model="newNote" ref="newNoteRef">
+    <AddEditNote
+      v-model="newNote"
+      bgColor="green"
+      placeholder="Add Note"
+      ref="newNoteRef"
+    >
       <template #buttons>
         <button
           type="submit"
