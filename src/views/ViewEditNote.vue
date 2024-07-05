@@ -26,16 +26,18 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useNotesStore } from '@/stores/storeNotes'
 import AddEditNote from '@/components/Notes/AddEditNote.vue'
 
 const route = useRoute()
+const router = useRouter()
+
 const noteContent = ref('')
 const notesStore = useNotesStore()
+const noteId = route.params.id as string
 
 const loadNote = () => {
-  const noteId = route.params.id
   const note = notesStore.notes.find(note => note.id === noteId)
   if (note) {
     noteContent.value = note.content
@@ -51,9 +53,11 @@ const handleSubmit = () => {
     return
   }
 
-  // notesStore.addNote(noteContent.value)
+  notesStore.editNote(noteId, noteContent.value)
+
   noteContent.value = ''
-  // noteContentRef.value?.focusTextArea()
+  // Navigate back to the posts page
+  router.push('/#/posts')
 }
 
 onMounted(loadNote)

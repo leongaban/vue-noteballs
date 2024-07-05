@@ -52,6 +52,8 @@ const newNoteRef = ref<ComponentPublicInstance<{
 
 // ? Submit, Clear & Delete Notes
 
+console.log('notesStore', notesStore.notes)
+
 const handleSubmit = () => {
   console.log('New Note:', newNote.value)
 
