@@ -15,7 +15,7 @@
             class="w-full px-3 py-2 text-gray-700 border border-green-500 rounded-lg focus:outline-none"
             rows="4"
             placeholder="Add new note..."
-            ref="newNoteRef"
+            ref="textAreaRef"
           ></textarea>
         </div>
         <div class="flex justify-end controls">
@@ -27,7 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, ref } from 'vue'
+
+const textAreaRef = ref<HTMLTextAreaElement | null>(null)
 
 const props = defineProps({
   modelValue: {
@@ -36,12 +38,19 @@ const props = defineProps({
   },
 })
 
-console.log('props', props)
-
 const emit = defineEmits(['update:modelValue'])
 
 const updateValue = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
   emit('update:modelValue', target.value)
 }
+
+const focusTextArea = () => {
+  console.log('Focus Text Area')
+  textAreaRef.value?.focus()
+}
+
+defineExpose({
+  focusTextArea,
+})
 </script>

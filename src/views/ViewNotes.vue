@@ -3,7 +3,7 @@
     <h1 class="m-5 text-3xl">Notes</h1>
 
     <!-- Adding buttons via named slot -->
-    <AddEditNote v-model="newNote">
+    <AddEditNote v-model="newNote" ref="newNoteRef">
       <template #buttons>
         <button
           type="submit"
@@ -34,14 +34,16 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import Note from '@/components/Notes/Note.vue'
 import AddEditNote from '@/components/Notes/AddEditNote.vue'
 import { useNotesStore } from '@/stores/storeNotes'
 
 const notesStore = useNotesStore()
-const { addNote, removeNote } = notesStore
 const newNote = ref('')
-const newNoteRef = ref<HTMLTextAreaElement | null>(null)
+const newNoteRef = ref<ComponentPublicInstance<{
+  focusTextArea: () => void
+}> | null>(null)
 
 // ? Submit, Clear & Delete Notes
 
@@ -52,22 +54,18 @@ const handleSubmit = () => {
     return
   }
 
-  addNote(newNote.value)
+  notesStore.addNote(newNote.value)
   newNote.value = ''
-  newNoteRef.value?.focus()
+  newNoteRef.value?.focusTextArea()
 }
 
 const handleClear = () => {
   newNote.value = ''
 }
 
-// const editNote = (id: string, content: string) => {
-//   console.log('Edit note:', id, content)
-// }
-
 const deleteNote = (id: string) => {
   console.log('Delete note:', id)
-  removeNote(id)
+  notesStore.removeNote(id)
 }
 </script>
 
