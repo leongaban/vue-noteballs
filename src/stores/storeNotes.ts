@@ -1,15 +1,24 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+interface Note {
+  id: string
+  content: string
+}
+
+interface NotesState {
+  notes: Note[]
+}
+
 export const useNotesStore = defineStore('storeNotes', () => {
-  const notes = ref([
+  const notes = ref<Note[]>([
     {
       id: 'id1',
       content: 'Lorem ipsum dolor sit amet.',
     },
     {
       id: 'id2',
-      content: 'Ipsum dolor sit amet lorem.',
+      content: 'Sit amet ipsum dolor lorem.',
     },
     {
       id: 'id3',
@@ -39,5 +48,20 @@ export const useNotesStore = defineStore('storeNotes', () => {
     notes.value = notes.value.filter(note => note.id !== id)
   }
 
-  return { notes, addNote, editNote, removeNote }
+  function totalNotesCount() {
+    return notes.value.length
+  }
+
+  function getAllCharacters() {
+    return notes.value.reduce((total, note) => total + note.content.length, 0)
+  }
+
+  return {
+    notes,
+    addNote,
+    editNote,
+    removeNote,
+    totalNotesCount,
+    getAllCharacters,
+  }
 })

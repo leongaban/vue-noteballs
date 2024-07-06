@@ -1,5 +1,5 @@
 <template>
-  <div class="notes">
+  <div class="notes-page">
     <h1 class="m-5 text-3xl">Notes</h1>
 
     <!-- Adding buttons via named slot -->
@@ -76,5 +76,3 @@ const deleteNote = (id: string) => {
   notesStore.removeNote(id)
 }
 </script>
-
-<style scoped></style>
