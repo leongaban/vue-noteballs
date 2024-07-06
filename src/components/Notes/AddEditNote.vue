@@ -1,22 +1,26 @@
 <template>
   <div
     class="w-full max-w-full mb-8 rounded-lg border overflow-hidden shadow-lg"
-    :class="`bg-${bgColor}-100 border-${bgColor}-700`"
+    :class="`bg-${props.bgColor}-100 border-${props.bgColor}-700`"
   >
     <form @submit.prevent>
       <div class="px-6 py-4">
         <div class="mb-4">
-          <label for="note" class="block text-gray-700 text-sm font-bold mb-2"
-            >New Note</label
+          <label
+            v-if="props.label"
+            for="note"
+            class="block text-gray-700 text-sm font-bold mb-2"
           >
+            {{ props.label }}
+          </label>
           <textarea
             id="note"
-            v-bind:value="modelValue"
+            v-bind:value="props.modelValue"
             @input="updateValue"
             class="w-full px-3 py-2 text-gray-700 border-2 rounded-lg"
-            :class="`border-${bgColor}-700`"
+            :class="`border-${props.bgColor}-700`"
             rows="4"
-            :placeholder="placeholder"
+            :placeholder="props.placeholder"
             ref="textAreaRef"
           ></textarea>
         </div>
@@ -45,6 +49,9 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: 'Type something...',
+  },
+  label: {
+    type: String,
   },
 })
 

@@ -3,16 +3,19 @@
     <AddEditNote
       v-model="noteContent"
       placeholder="Edit a current note"
+      label="Edit Note"
       bgColor="blue"
     >
       <template #buttons>
+        <button type="button" :class="btnCancelStyles" @click="$router.back()">
+          Cancel
+        </button>
+
         <button
           type="submit"
           :class="{
-            'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded':
-              noteContent.trim() !== '',
-            'bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed':
-              noteContent.trim() === '',
+            [btnSubmitStyleOn]: noteContent.trim() !== '',
+            [btnSubmitStyleDisabled]: noteContent.trim() === '',
           }"
           :disabled="noteContent.trim() === ''"
           @click="handleSubmit"
@@ -37,6 +40,17 @@ const noteContent = ref('')
 const notesStore = useNotesStore()
 const noteId = route.params.id as string
 
+const btnCancelStyles = ref(
+  'mr-3 bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded',
+)
+const btnSubmitStyleOn = ref(
+  'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+)
+const btnSubmitStyleDisabled = ref(
+  'bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed',
+)
+
+// ? Load Selected Note
 const loadNote = () => {
   const note = notesStore.notes.find(note => note.id === noteId)
   if (note) {
@@ -46,9 +60,8 @@ const loadNote = () => {
   }
 }
 
+// ? Edit Note Submit
 const handleSubmit = () => {
-  console.log('New Note:', noteContent.value)
-
   if (noteContent.value.trim() === '') {
     return
   }

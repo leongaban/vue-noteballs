@@ -6,7 +6,8 @@
     <AddEditNote
       v-model="newNote"
       bgColor="green"
-      placeholder="Add Note"
+      placeholder="Write Note Here..."
+      label="Create New Note"
       ref="newNoteRef"
     >
       <template #buttons>
